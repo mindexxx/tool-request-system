@@ -1,11 +1,11 @@
 export enum Department {
-  ENGINEERING = '研发部',
-  PRODUCT = '产品部',
-  DESIGN = '设计部',
-  MARKETING = '市场部',
-  OPERATIONS = '运营部',
-  HR = '人力资源',
-  OTHER = '其他'
+  ENERGY = '能源',
+  AC = '空调',
+  CONSTRUCTION = '可建',
+  AIR = '空气',
+  HOTEL = '酒店运营',
+  GROUP_COMPREHENSIVE = '集团综合',
+  RENEWABLE_RESOURCES = '再生资源'
 }
 
 export enum Urgency {

@@ -18,7 +18,8 @@ import {
   Ban,
   CalendarDays,
   History,
-  BookOpen
+  BookOpen,
+  Info
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -35,7 +36,7 @@ type Lang = 'CN' | 'EN';
 const TEXT = {
   CN: {
     loginTitle: '工具开发需求收集平台',
-    loginSubtitle: 'Internal Tools Collection',
+    // loginSubtitle removed
     namePlaceholder: '姓名',
     idPlaceholder: '工号',
     phonePlaceholder: '电话',
@@ -64,6 +65,7 @@ const TEXT = {
     back: '返回',
     next: '下一步',
     submit: '提交申请',
+    joinQueue: '加入排队',
     landscape: '需求概览',
     landscapeSub: '各部门需求分布可视化。当前活跃需求数：',
     sort: '排序依据：优先级 & 状态',
@@ -74,8 +76,8 @@ const TEXT = {
     val: '业务价值',
     navSubmit: '提交需求',
     navQueue: '队列 & 概览',
-    queueFullTitle: '队列已满',
-    queueFullMsg: '当前活跃需求超过5个，暂停接收新申请。',
+    queueFullTitle: '当前需求火爆',
+    queueFullMsg: '当前活跃需求较多，您的需求将自动加入排队列表。',
     estMeeting: '预估会议：',
     caseHistory: '历史案例',
     caseTitle: '典型案例库',
@@ -90,7 +92,7 @@ const TEXT = {
   },
   EN: {
     loginTitle: 'Tool Request Platform',
-    loginSubtitle: 'Internal Tools Collection',
+    // loginSubtitle removed
     namePlaceholder: 'Name',
     idPlaceholder: 'Employee ID',
     phonePlaceholder: 'Phone',
@@ -119,6 +121,7 @@ const TEXT = {
     back: 'Back',
     next: 'Next',
     submit: 'Submit Request',
+    joinQueue: 'Get in Queue',
     landscape: 'Needs Landscape',
     landscapeSub: 'Visualizing demand. Active requests:',
     sort: 'Sorted by Priority & Status',
@@ -129,8 +132,8 @@ const TEXT = {
     val: 'Business Value',
     navSubmit: 'Submit Request',
     navQueue: 'Queue & Overview',
-    queueFullTitle: 'Queue Full',
-    queueFullMsg: 'New submissions paused (active requests > 5).',
+    queueFullTitle: 'High Demand',
+    queueFullMsg: 'Active requests > 5. Your request will join the waitlist.',
     estMeeting: 'Est. Meeting:',
     caseHistory: 'Case History',
     caseTitle: 'Success Stories',
@@ -215,11 +218,11 @@ const LoginView = ({ onLogin, lang, isQueueFull, onShowCases }: { onLogin: (cred
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in duration-700 slide-in-from-bottom-4">
       {isQueueFull && (
-        <div className="w-full max-w-md bg-red-50 border-l-4 border-red-500 p-4 mb-8 flex items-start gap-3">
-          <Ban className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+        <div className="w-full max-w-md bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 flex items-start gap-3">
+          <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
           <div>
-            <h3 className="font-bold text-red-800">{t.queueFullTitle}</h3>
-            <p className="text-sm text-red-700">{t.queueFullMsg}</p>
+            <h3 className="font-bold text-blue-800">{t.queueFullTitle}</h3>
+            <p className="text-sm text-blue-700">{t.queueFullMsg}</p>
           </div>
         </div>
       )}
@@ -229,7 +232,7 @@ const LoginView = ({ onLogin, lang, isQueueFull, onShowCases }: { onLogin: (cred
           <h2 className="font-serif text-4xl font-bold tracking-tight text-pudding-black">
             {t.loginTitle}
           </h2>
-          {/* Subtitle removed as per request */}
+          {/* Subtitle removed */}
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6 max-w-sm mx-auto">
@@ -318,7 +321,7 @@ const SubmissionForm = ({ user, onSubmitSuccess, lang, isQueueFull }: { user: Us
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState<Partial<NeedItem>>({
-    department: Department.OTHER,
+    department: Department.ENERGY,
     urgency: Urgency.MEDIUM,
   });
   const t = TEXT[lang];
@@ -340,28 +343,20 @@ const SubmissionForm = ({ user, onSubmitSuccess, lang, isQueueFull }: { user: Us
     return <SuccessView onReset={onSubmitSuccess} lang={lang} />;
   }
 
-  // --- Queue Limit Block ---
-  if (isQueueFull) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center max-w-lg mx-auto">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
-          <Ban className="w-8 h-8 text-red-600" />
-        </div>
-        <h2 className="font-serif text-2xl font-bold mb-4">{t.queueFullTitle}</h2>
-        <p className="text-gray-600 mb-8 leading-relaxed">
-          {t.queueFullMsg}
-          <br/>
-          We are currently processing a high volume of requests to ensure quality. Please check back later.
-        </p>
-      </div>
-    );
-  }
-
   // Progress Bar
   const progress = (step / totalSteps) * 100;
 
   return (
     <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-500">
+      
+      {/* Queue Status Banner inside Form */}
+      {isQueueFull && (
+        <div className="mb-8 p-3 bg-blue-50 border border-blue-100 rounded-md flex items-center gap-3 text-sm text-blue-800 animate-in fade-in slide-in-from-top-2">
+          <Info className="w-4 h-4 flex-shrink-0" />
+          {t.queueFullMsg}
+        </div>
+      )}
+
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-serif text-2xl font-bold">{t.newReq}</h2>
         <span className="font-mono text-sm text-gray-500">{t.step} {step} / {totalSteps}</span>
@@ -509,8 +504,10 @@ const SubmissionForm = ({ user, onSubmitSuccess, lang, isQueueFull }: { user: Us
             disabled={isSubmitting}
             className="bg-pudding-accent text-white px-8 py-3 font-medium hover:bg-red-700 flex items-center gap-2 shadow-lg shadow-red-100"
           >
-            {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin"/> : <Send className="w-4 h-4" />}
-            {t.submit}
+            {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin"/> : (
+              isQueueFull ? <Clock className="w-4 h-4" /> : <Send className="w-4 h-4" />
+            )}
+            {isQueueFull ? t.joinQueue : t.submit}
           </button>
         )}
       </div>

@@ -17,7 +17,7 @@ const INITIAL_NEEDS: NeedItem[] = [
   {
     id: '1',
     title: '自动化报表导出工具',
-    department: Department.OPERATIONS,
+    department: Department.GROUP_COMPREHENSIVE,
     description: '目前每天需要手动从三个后台导出数据并在Excel拼接，耗时2小时。需要一个一键导出并格式化的工具。',
     businessValue: '每天节省运营人员2小时工时，减少人为数据错误。',
     targetAudience: '运营组全体',
@@ -31,7 +31,7 @@ const INITIAL_NEEDS: NeedItem[] = [
   {
     id: '2',
     title: '活动页快速生成器',
-    department: Department.MARKETING,
+    department: Department.RENEWABLE_RESOURCES,
     description: '每次大促都需要研发介入改代码换图。希望能有一个后台配置化生成H5落地页的工具。',
     businessValue: '加快活动上线速度，从3天缩短至30分钟。',
     targetAudience: '市场投放组',
@@ -45,12 +45,12 @@ const INITIAL_NEEDS: NeedItem[] = [
   {
     id: '3',
     title: '客户反馈聚合看板',
-    department: Department.PRODUCT,
+    department: Department.CONSTRUCTION,
     description: '需要抓取微博、小红书的品牌关键词，聚合展示在后台，方便产品经理做舆情分析。',
     businessValue: '提升产品迭代方向的准确性。',
     targetAudience: '产品经理',
     urgency: Urgency.LOW,
-    status: Status.PENDING,
+    status: Status.COMPLETED, // Changed from PENDING to free up queue
     submittedBy: 'user_3',
     submittedByName: '王产品',
     createdAt: new Date(Date.now() - 86400000 * 1).toISOString(),
@@ -59,12 +59,12 @@ const INITIAL_NEEDS: NeedItem[] = [
   {
     id: '4',
     title: '财务发票OCR识别',
-    department: Department.HR,
+    department: Department.HOTEL,
     description: '员工报销贴票太麻烦，希望拍照自动识别金额和税号填入系统。',
     businessValue: '全员每月节省30分钟。',
     targetAudience: '全员',
     urgency: Urgency.MEDIUM,
-    status: Status.PENDING,
+    status: Status.APPROVED, // Changed from PENDING to free up queue
     submittedBy: 'user_4',
     submittedByName: '赵行政',
     createdAt: new Date(Date.now() - 86400000 * 6).toISOString(),
@@ -73,7 +73,7 @@ const INITIAL_NEEDS: NeedItem[] = [
   {
     id: '5',
     title: '测试环境一键部署',
-    department: Department.ENGINEERING,
+    department: Department.ENERGY,
     description: '开发分支合并后，希望能自动触发Jenkins构建并部署到测试环境，现在手动操作太慢。',
     businessValue: '提升研发效能。',
     targetAudience: '研发部',
@@ -87,7 +87,7 @@ const INITIAL_NEEDS: NeedItem[] = [
    {
     id: '6',
     title: '销售线索清洗工具',
-    department: Department.MARKETING,
+    department: Department.AC,
     description: '从外部购买的线索有很多重复和格式错误，需要工具自动清洗。',
     businessValue: '提高销售拨打效率。',
     targetAudience: '销售部',
